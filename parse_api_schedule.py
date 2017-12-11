@@ -1,6 +1,24 @@
 import requests
 from pprint import pprint
 
+# postgres imports
+import os
+from urllib import parse
+import psycopg2
+
+
+# set up postgres connection
+parse.uses_netloc.append("postgres")
+url = parse.urlparse(os.environ["DATABASE_URL"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
 url = 'https://statsapi.web.nhl.com/api/v1/schedule'
 
 # get text and json
