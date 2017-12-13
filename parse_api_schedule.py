@@ -70,8 +70,6 @@ cur = conn.cursor()
 for command in commands:
     cur.execute(command)
 
-
-
 url = 'https://statsapi.web.nhl.com/api/v1/schedule'
 
 # get text and json
@@ -110,8 +108,8 @@ for games_date in json['dates']:
 			away_name = game['teams']['away']['team']['name']
 			print(away_name + ' (' + str(away_id) + ') @ ' + home_name + ' (' + str(home_id) + ')')
 
-	        # execute the INSERT statement
-	        cur.execute(sql, (game_id, home_id, away_id))
+			# execute the INSERT statement
+			cur.execute(sql, (game_id, home_id, away_id))
 
 # close communication with the PostgreSQL database server
 cur.close()
