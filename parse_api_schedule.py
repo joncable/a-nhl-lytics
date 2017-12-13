@@ -11,9 +11,9 @@ import psycopg2
 commands = (
     """
     CREATE TABLE SCHEDULE (
-        GAME_ID int(10) NOT NULL DEFAULT '0' PRIMARY KEY,
-        HOME_TEAM int(2) NOT NULL,
-        AWAY_TEAM int(2) NOT NULL,
+        GAME_ID int NOT NULL DEFAULT '0' PRIMARY KEY,
+        HOME_TEAM int NOT NULL,
+        AWAY_TEAM int NOT NULL,
         LOCATION VARCHAR(255)
     )
     """,
