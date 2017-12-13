@@ -54,8 +54,8 @@ json = r.json()
 
 pprint(json)
 
-sql = """INSERT INTO schedule(game_id, home_id, away_id)
-         VALUES(%s, %s, %s);"""
+sql = """INSERT INTO schedule(game_id, season, home_id, away_id, venue, date, time)
+         VALUES(%s, %s, %s, %s, %s, %s, %s);"""
 
 for games_date in json['dates']:
 
