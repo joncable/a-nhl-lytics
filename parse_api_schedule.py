@@ -70,10 +70,7 @@ cur = conn.cursor()
 for command in commands:
     cur.execute(command)
 
-# close communication with the PostgreSQL database server
-cur.close()
-# commit the changes
-conn.commit()
+
 
 url = 'https://statsapi.web.nhl.com/api/v1/schedule'
 
@@ -83,6 +80,9 @@ text = r.text
 json = r.json()
 
 pprint(json)
+
+sql = """INSERT INTO schedule(game_id, home_team, away_team)
+         VALUES(%s);"""
 
 for games_date in json['dates']:
 
@@ -111,5 +111,10 @@ for games_date in json['dates']:
 			print(away_name + ' (' + str(away_id) + ') @ ' + home_name + ' (' + str(home_id) + ')')
 
 
+	        # execute the INSERT statement
+	        cur.execute(sql, (game_id,home_id,away_id))
 
-
+# close communication with the PostgreSQL database server
+cur.close()
+# commit the changes
+conn.commit()
