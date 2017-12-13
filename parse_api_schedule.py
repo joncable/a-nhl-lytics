@@ -10,9 +10,11 @@ import psycopg2
 """ create tables in the PostgreSQL database"""
 commands = (
     """
-    CREATE TABLE vendors (
-        vendor_id SERIAL PRIMARY KEY,
-        vendor_name VARCHAR(255) NOT NULL
+    CREATE TABLE SCHEDULE (
+        GAME_ID int(10) NOT NULL DEFAULT '0' PRIMARY KEY,
+        HOME_TEAM int(2) NOT NULL,
+        AWAY_TEAM int(2) NOT NULL,
+        LOCATION VARCHAR(255)
     )
     """,
     """ CREATE TABLE parts (
