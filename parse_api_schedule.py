@@ -17,7 +17,7 @@ commands = (
         AWAY_TEAM int NOT NULL,
         VENUE VARCHAR(255),
         DATE date DEFAULT NULL,
-        TIME VARCHAR(255) DEFAULT NULL,
+        TIME VARCHAR(255) DEFAULT NULL
     )
     """,
     """
@@ -25,7 +25,7 @@ commands = (
         TEAM_ID int PRIMARY KEY,
         TEAM_NAME VARCHAR(255) NOT NULL
     )
-    """
+    """,
 )
 
 # set up postgres connection
