@@ -14,7 +14,7 @@ commands = (
         vendor_id SERIAL PRIMARY KEY,
         vendor_name VARCHAR(255) NOT NULL
     )
-    """
+    """,
     """ CREATE TABLE parts (
             part_id SERIAL PRIMARY KEY,
             part_name VARCHAR(255) NOT NULL
