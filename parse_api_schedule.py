@@ -82,7 +82,7 @@ json = r.json()
 pprint(json)
 
 sql = """INSERT INTO schedule(game_id, home_team, away_team)
-         VALUES(%s);"""
+         VALUES(%s, %s, %s);"""
 
 for games_date in json['dates']:
 
@@ -110,9 +110,8 @@ for games_date in json['dates']:
 			away_name = game['teams']['away']['team']['name']
 			print(away_name + ' (' + str(away_id) + ') @ ' + home_name + ' (' + str(home_id) + ')')
 
-
 	        # execute the INSERT statement
-	        cur.execute(sql, (game_id,home_id,away_id))
+	        cur.execute(sql, (game_id, home_id, away_id))
 
 # close communication with the PostgreSQL database server
 cur.close()
