@@ -17,10 +17,17 @@ commands = (
         LOCATION VARCHAR(255)
     )
     """,
-    """ CREATE TABLE parts (
+    """
+    CREATE TABLE vendors (
+        vendor_id SERIAL PRIMARY KEY,
+        vendor_name VARCHAR(255) NOT NULL
+    )
+    """,
+    """ 
+    CREATE TABLE parts (
             part_id SERIAL PRIMARY KEY,
             part_name VARCHAR(255) NOT NULL
-            )
+    )
     """,
     """
     CREATE TABLE part_drawings (
