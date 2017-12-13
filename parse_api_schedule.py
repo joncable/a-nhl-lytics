@@ -10,48 +10,23 @@ import psycopg2
 """ create tables in the PostgreSQL database"""
 commands = (
     """
-    CREATE TABLE SCHEDULE (
+    CREATE TABLE IF NOT EXISTS SCHEDULE (
         GAME_ID int NOT NULL DEFAULT '0' PRIMARY KEY,
+        SEASON int NOT NULL,
         HOME_TEAM int NOT NULL,
         AWAY_TEAM int NOT NULL,
-        LOCATION VARCHAR(255)
+        VENUE VARCHAR(255),
+        DATE date DEFAULT NULL,
+        TIME VARCHAR(255) DEFAULT NULL,
     )
     """,
     """
-    CREATE TABLE vendors (
-        vendor_id SERIAL PRIMARY KEY,
-        vendor_name VARCHAR(255) NOT NULL
+    CREATE TABLE IF NOT EXISTS TEAMS (
+        TEAM_ID int PRIMARY KEY,
+        TEAM_NAME VARCHAR(255) NOT NULL
     )
-    """,
-    """ 
-    CREATE TABLE parts (
-            part_id SERIAL PRIMARY KEY,
-            part_name VARCHAR(255) NOT NULL
-    )
-    """,
     """
-    CREATE TABLE part_drawings (
-            part_id INTEGER PRIMARY KEY,
-            file_extension VARCHAR(5) NOT NULL,
-            drawing_data BYTEA NOT NULL,
-            FOREIGN KEY (part_id)
-            REFERENCES parts (part_id)
-            ON UPDATE CASCADE ON DELETE CASCADE
-    )
-    """,
-    """
-    CREATE TABLE vendor_parts (
-            vendor_id INTEGER NOT NULL,
-            part_id INTEGER NOT NULL,
-            PRIMARY KEY (vendor_id , part_id),
-            FOREIGN KEY (vendor_id)
-                REFERENCES vendors (vendor_id)
-                ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (part_id)
-                REFERENCES parts (part_id)
-                ON UPDATE CASCADE ON DELETE CASCADE
-    )
-    """)
+)
 
 # set up postgres connection
 parse.uses_netloc.append("postgres")
@@ -79,7 +54,7 @@ json = r.json()
 
 pprint(json)
 
-sql = """INSERT INTO schedule(game_id, home_team, away_team)
+sql = """INSERT INTO schedule(game_id, home_id, away_id)
          VALUES(%s, %s, %s);"""
 
 for games_date in json['dates']:
@@ -99,7 +74,7 @@ for games_date in json['dates']:
 
 			# dates
 			season = game['season']
-			date = game['gameDate']
+			time = game['gameDate']
 
 			# teams
 			home_id = game['teams']['home']['team']['id']
@@ -108,8 +83,11 @@ for games_date in json['dates']:
 			away_name = game['teams']['away']['team']['name']
 			print(away_name + ' (' + str(away_id) + ') @ ' + home_name + ' (' + str(home_id) + ')')
 
+			# location
+			venue = game['venue']['name']
+
 			# execute the INSERT statement
-			cur.execute(sql, (game_id, home_id, away_id))
+			cur.execute(sql, (game_id, season, home_id, away_id, venue, date, time))
 
 # close communication with the PostgreSQL database server
 cur.close()
